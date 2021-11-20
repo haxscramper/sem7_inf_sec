@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import random, math
+import random
+import math
+
 
 def is_prime(n: int) -> bool:
     if n > 1:
@@ -11,6 +13,7 @@ def is_prime(n: int) -> bool:
         else:
             return True
 
+
 def get_prime(n: int) -> int:
     while True:
         range_start = int("1" + "0" * (n), 2)
@@ -18,6 +21,7 @@ def get_prime(n: int) -> int:
         number = random.randint(range_start, range_end)
         if is_prime(number):
             return number
+
 
 def RSA(p, q: int):
     n = p * q
@@ -39,8 +43,10 @@ def RSA(p, q: int):
 def encrypt(message: str, key: int) -> list[int]:
     return [pow(ord(m), key[0]) % key[1] for m in message]
 
+
 def decrypt(message: str, key: int) -> str:
     return "".join([chr(pow(m, key[0]) % key[1]) for m in message])
+
 
 public_key, private_key = RSA(get_prime(8), get_prime(8))
 

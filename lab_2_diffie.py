@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import random, math
+import random
+import math
+
 
 class User(object):
     def __init__(self, name, bitlen):
@@ -11,12 +13,11 @@ class User(object):
         self.full_key = None
 
     def generate_partial_key(self):
-        result =  self.public_alice ** self.private_key % self.public_bob
+        result = self.public_alice ** self.private_key % self.public_bob
         print(
             f"Сгенерировать частичный ключ {self.name}\t{result} =",
             self.public_alice, "^", self.private_key, "mod", self.public_bob
         )
-
 
         return result
 
@@ -27,7 +28,6 @@ class User(object):
             f"Сгенерировать полный ключ {self.name}\t{self.full_key} =",
             partial_key_r, "^", self.private_key, "mod", self.public_bob
         )
-
 
     def encode(self, message):
         return "".join([chr(ord(c) ^ self.full_key) for c in message])
@@ -42,6 +42,7 @@ def is_prime(n: int) -> bool:
         else:
             return True
 
+
 def get_prime(n: int) -> int:
     while True:
         range_start = int("1" + "0" * (n), 2)
@@ -50,10 +51,12 @@ def get_prime(n: int) -> int:
         if is_prime(number):
             return number
 
+
 def exchange_private(alice, bob, eve: User):
     alice.public_bob = bob.public_bob
     bob.public_alice = alice.public_alice
     eve.public_alice = alice.public_alice
+
 
 def generate_full(alice, bob, eve: User):
     a_partial = alice.generate_partial_key()
@@ -64,6 +67,7 @@ def generate_full(alice, bob, eve: User):
     bob.generate_full_key(a_partial)
     eve.generate_full_key(a_partial)
 
+
 message = "Приеду завтра в полдень, Артемов Максим"
 bitlen = int(math.log2(max([ord(c) for c in message])))
 
@@ -71,7 +75,8 @@ alice = User("Алиса", bitlen)
 bob = User("Боб", bitlen)
 eve = User("Ева", bitlen)
 
-print(f"Алиса ключи\t публичный {alice.public_alice}, \tприватный {alice.private_key}")
+print(
+    f"Алиса ключи\t публичный {alice.public_alice}, \tприватный {alice.private_key}")
 print(f"Боб ключ\t публичный {bob.public_bob}, \tприватный {bob.private_key}")
 
 exchange_private(alice, bob, eve)
@@ -86,4 +91,3 @@ print("Расшифровка сообщения\n\t", desc_message)
 
 desc_message = eve.encode(b_encrypted)
 print("Расшифровка сообщения\n\t", desc_message)
-

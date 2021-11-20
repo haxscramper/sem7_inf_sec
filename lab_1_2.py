@@ -7,7 +7,8 @@ text = ''
 
 with open('text.txt', 'r') as f:
     text = f.read()
-    text = "".join([c for c in text if c == ' ' or c == 'n' or c.isalpha()]).lower()
+    text = "".join([c for c in text if c == ' ' or c ==
+                   'n' or c.isalpha()]).lower()
     offset = 3
     message = ''
     c = 0
@@ -32,7 +33,8 @@ for offset, value in monogram_frequencies.items():
     i = 0
     while i < len(monogram_encode_map) and value <= monogram_frequencies[monogram_encode_map[i]]:
         i += 1
-    monogram_encode_map = monogram_encode_map[:i] + offset + monogram_encode_map[i:]
+    monogram_encode_map = monogram_encode_map[:i] + \
+        offset + monogram_encode_map[i:]
 
 
 mono_decoded = ''
@@ -84,6 +86,7 @@ for i in range(10):
     crypt_bigrams10.append(bigram)
     crypt_bigrams.pop(bigram)
 
+
 def move_two_letters(s, a, b):
     if a > b:
         a, b = b, a
@@ -92,6 +95,7 @@ def move_two_letters(s, a, b):
     s2 = s[a+1:b]
     s3 = s[b+1:]
     return s1 + s[b] + s2 + s[a] + s3
+
 
 bigram_encode_map = monogram_encode_map
 

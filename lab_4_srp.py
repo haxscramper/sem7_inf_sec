@@ -2,12 +2,16 @@ from math import gcd
 import random
 import hashlib
 
+
 def fast_pow(base, exp, mod):
-    if exp == 0: return 1
+    if exp == 0:
+        return 1
     if exp & 1 == 0:
         r = fast_pow(base, exp // 2, mod)
         return (r * r) % mod
-    else: return (base % mod * fast_pow(base, exp - 1, mod)) % mod
+    else:
+        return (base % mod * fast_pow(base, exp - 1, mod)) % mod
+
 
 def is_prime(n: int) -> bool:
     if n > 1:
@@ -18,6 +22,7 @@ def is_prime(n: int) -> bool:
         else:
             return True
 
+
 def get_prime(n: int) -> int:
     while True:
         range_start = int("1" + "0" * (n), 2)
@@ -26,15 +31,20 @@ def get_prime(n: int) -> int:
         if is_prime(number):
             return number
 
+
 def root(modulo: int) -> int:
-    required_set = set(num for num in range (1, modulo) if gcd(num, modulo) == 1)
+    required_set = set(num for num in range(
+        1, modulo) if gcd(num, modulo) == 1)
     for g in range(1, modulo):
-        actual_set = set(pow(g, powers) % modulo for powers in range (1, modulo))
+        actual_set = set(pow(g, powers) %
+                         modulo for powers in range(1, modulo))
         if required_set == actual_set:
             return g
 
+
 def hashval(val: str) -> int:
     return int(hashlib.sha256(val.encode('utf-8')).hexdigest(), 16)
+
 
 def SRP(password: str) -> int:
     N = 1
@@ -59,10 +69,12 @@ def SRP(password: str) -> int:
         if B != 0:
             u = hashval(hex(A + B))
             if u != 0:
-                client_session_key = fast_pow((B - k * fast_pow(g, secret_key, N)), (a + u * secret_key),  N)
+                client_session_key = fast_pow(
+                    (B - k * fast_pow(g, secret_key, N)), (a + u * secret_key),  N)
                 client_encode_key = hashval(hex(client_session_key))
 
-                server_session_key = fast_pow((A * (fast_pow(server_verifier, u, N))), b, N)
+                server_session_key = fast_pow(
+                    (A * (fast_pow(server_verifier, u, N))), b, N)
                 server_encode_key = hashval(hex(server_session_key))
 
                 if client_encode_key == server_encode_key:
@@ -71,5 +83,6 @@ def SRP(password: str) -> int:
                     print("Ключ сессии на клиенте: \t", client_session_key)
                     print("Ключ кодирования на клиенте: \t", client_encode_key)
                     return server_encode_key
+
 
 print(SRP('123243'))

@@ -2,7 +2,7 @@
 
 def get_abc(bias, key):
     a = ord('a')
-    abc = ''.join([chr(i) for i in range(a,a+26)])
+    abc = ''.join([chr(i) for i in range(a, a+26)])
     for sym in key:
         abc = abc.replace(sym, '')
     abc = key + abc
@@ -19,7 +19,7 @@ abc = get_abc(bias, key)
 message1 = ''
 for sym in inp:
     if sym.isalpha():
-        message1 += abc[(ord(sym) - 97 )]
+        message1 += abc[(ord(sym) - 97)]
     else:
         message1 += sym
 print(message1)
